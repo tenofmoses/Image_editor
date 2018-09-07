@@ -1,0 +1,7 @@
+$ cat .gitignore
+__pycache__
+input_img/
+output_img/
+fonts/
+.vscode/
+token.py
