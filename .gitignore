@@ -4,4 +4,4 @@ input_img/
 output_img/
 fonts/
 .vscode/
-token.py
+vk_token.py

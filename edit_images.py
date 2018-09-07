@@ -3,7 +3,7 @@ import requests
 import re 
 import textwrap
 import time
-from token import token
+from vk_token import token
 
 group = -41682596
 url = 'https://api.vk.com/method/'
@@ -66,11 +66,11 @@ res = get_sources(url, token).json()['response']['items']
 for item in res:
     text = item['text']
     try:
-        first_photo_link = item['attachments'][0]['photo']['photo_604']
+        first_image_link = item['attachments'][0]['photo']['photo_604']
     except KeyError:
         continue
         
-    image_name = re.findall('\w+', first_photo_link)[-2]
+    image_name = re.findall('\w+', first_image_link)[-2]
 
     try:
         relevance_image = search_relevance_image(text, url, token)
@@ -78,17 +78,15 @@ for item in res:
         continue
 
     if relevance_image:
-        print(text)
-        print(relevance_image)
-
         relevance_image_name = re.findall('\w+', relevance_image)[-2]
 
-    first_image = requests.get(first_photo_link)
-    save_img(image_name, first_image)
+        first_image = requests.get(first_image_link)
+        save_img(image_name, first_image)
 
-    second_image = requests.get(second_photo_link)
-    save_img(relevance_image_name, relevance_image)
+        relevance_image_name = requests.get(relevance_image)
+        save_img(relevance_image_name, relevance_image)
 
-    combine_images(image_name, relevance_image_name)
+        combine_images(image_name, relevance_image_name)
+
     # add_text(text, photo_name)
 
